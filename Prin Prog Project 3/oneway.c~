@@ -1,0 +1,56 @@
+/*
+ **********************************************
+ *  CS314 Principles of Programming Languages *
+ *  Fall 2018                                 *
+ *  File: oneway.c                            *
+ *  Date: 11/25/2018                          *
+ **********************************************
+ */
+#include "oneway.h"
+#include "utils.h"
+
+void extend_one_hand(int threadId, int threadNum, GraphData graph,
+                     int nodeNum, int *nodeToProcess,
+                     int *res, int *strongNeighbor)
+{
+    /* Your Code Goes Here */
+	int workchunk, beg, end;
+	int v,i,j;
+	
+	workchunk = (nodeNum + threadNum - 1)/threadNum;
+	beg = threadId * workchunk;
+	if(beg + workchunk < nodeNum)
+		end = beg + workchunk;
+	else
+		end = nodeNum;
+
+	for(i = beg;i <= (end - 1); i++){
+		v = nodeToProcess[i];
+		//printf("nodeToProcess: %d\n", v);
+		//printf("graph.offset[v] %d\n", graph.offset[v]);	
+		for(j = graph.offset[v]; j <= 23;j++){
+			//printf("off:%d\n",j);
+			//printf("res[j]: %d\n", res[i]);
+			if(res[i] == UNMATCHED){
+				strongNeighbor[v] = graph.index[j];
+				break;
+			}
+		}
+	}
+
+	/*
+	for(i=0;i<nodeNum;i++){
+		printf("%d, ",strongNeighbor[i]);
+	}
+	*/
+
+}
+
+void check_handshaking(int threadId, int threadNum,
+                       int nodeNum, int *nodeToProcess,
+                       int *strongNeighbor, int *res)
+{
+    /* Your Code Goes Here */
+}
+
+
